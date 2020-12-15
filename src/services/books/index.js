@@ -188,4 +188,30 @@ booksRouter.post("/:asin/comments", async (req, res, next) => {
   }
 });
 
+booksRouter.delete("/:asin/comments/:commentID", async (req, res, next) => {
+  try {
+    const books = await getBooks(); //FETCHES BOOK ARRAY
+
+    const bookIndex = books.findIndex((book) => book.asin === req.params.asin); //GETS INDEX OF SELECTED BOOK
+
+    if (bookIndex !== -1) {
+      let updatedComments = books[bookIndex].comments.filter(
+        (comment) => comment.CommentID !== req.params.commentID
+      ); //CREATES NEW COMMENT ARRAY WITHOUT COMMENT WE'RE DELETING
+
+      books[bookIndex].comments = updatedComments; //REPLACES OLD COMMENT ARRAY WITH NEW ARRAY
+
+      await writeBooks(books);
+      res.send(books);
+    } else {
+      const error = new Error();
+      error.httpStatusCode = 404;
+      next(error);
+    }
+  } catch (error) {
+    console.log(error);
+    next(error);
+  }
+});
+
 module.exports = booksRouter;
