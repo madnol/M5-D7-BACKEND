@@ -1,5 +1,5 @@
 {
-  "name": "M5-D7-BACKEND",
+  "name": "my-back-end",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
@@ -29,6 +29,7 @@
     "express": "^4.17.1",
     "express-list-endpoints": "^5.0.0",
     "express-validator": "^6.8.0",
-    "fs-extra": "^9.0.1"
+    "fs-extra": "^9.0.1",
+    "uniqid": "^5.2.0"
   }
 }
