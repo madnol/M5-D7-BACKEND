@@ -126,6 +126,29 @@ booksRouter.delete("/:asin", async (req, res, next) => {
   }
 });
 
+booksRouter.get("/:asin/comments", async (req, res, next) => {
+  try {
+    const books = await getBooks(); //GETS BOOK ARRAY
+
+    const bookFound = books.find((book) => book.asin === req.params.asin); //GET THE BOOK OBJECT FROM ARRAY
+
+    if (bookFound) {
+      if (bookFound.hasOwnProperty("comments")) {
+        res.status(200).send(bookFound.comments);
+      } else {
+        res.status(404).send("This book has no comments.");
+      }
+    } else {
+      const error = new Error();
+      error.httpStatusCode = 404;
+      next(error);
+    }
+  } catch (error) {
+    console.log(error);
+    next(error);
+  }
+});
+
 booksRouter.post("/:asin/comments", async (req, res, next) => {
   try {
     const books = await getBooks(); // FETCHES BOOK ARRAY
